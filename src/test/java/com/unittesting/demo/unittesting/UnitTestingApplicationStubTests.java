@@ -18,13 +18,30 @@ class UnitTestingApplicationStubTests {
 		assertEquals(expectedSum, actualSum);
 	}
 
+	@Test
+	public void shouldReturnZeroSumUsingDataService() {
+		CustomService customService = new CustomService();
+		customService.setDataService(new StubEmptyDataService());
+		int actualSum = customService.calculateUsingDataService();
+		int expectedSum = 0;
+		assertEquals(expectedSum, actualSum);
+	}
+
 }
 
-//Stubbing..
+//Stubbing........
 class StubDataService implements DataService {
 
 	@Override
 	public int[] retrieveData() {
 		return new int[] {1, 2, 3};
+	}
+}
+
+class StubEmptyDataService implements DataService {
+
+	@Override
+	public int[] retrieveData() {
+		return new int[] {};
 	}
 }
