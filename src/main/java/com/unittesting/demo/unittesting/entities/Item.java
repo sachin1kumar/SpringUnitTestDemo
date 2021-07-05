@@ -13,7 +13,11 @@ public class Item {
     private double price;
 
     @Transient
-    private int value;
+    private double value;
+
+    protected Item() {
+
+    }
 
     public Item(int id, String name, double price) {
         this.id = id;
@@ -33,11 +37,11 @@ public class Item {
         return id;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

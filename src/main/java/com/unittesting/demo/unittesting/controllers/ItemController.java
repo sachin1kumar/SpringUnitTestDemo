@@ -5,6 +5,7 @@ import com.unittesting.demo.unittesting.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 public class ItemController {
@@ -20,5 +21,10 @@ public class ItemController {
     @GetMapping("/dummy-item-from-service")
     public Item getDummyItemFromService() {
         return itemService.getDummyItem();
+    }
+
+    @GetMapping("/all-items-from-database")
+    public List<Item> retrieveAllItems() {
+        return itemService.retrieveAllItems();
     }
 }
