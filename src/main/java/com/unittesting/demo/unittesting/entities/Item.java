@@ -1,10 +1,19 @@
 package com.unittesting.demo.unittesting.entities;
 
-public final class Item {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
-    private final int id;
-    private final String name;
-    private final double price;
+@Entity
+public class Item {
+
+    @Id
+    private int id;
+    private String name;
+    private double price;
+
+    @Transient
+    private int value;
 
     public Item(int id, String name, double price) {
         this.id = id;
@@ -22,5 +31,23 @@ public final class Item {
 
     public int getId() {
         return id;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", value=" + value +
+                '}';
     }
 }
