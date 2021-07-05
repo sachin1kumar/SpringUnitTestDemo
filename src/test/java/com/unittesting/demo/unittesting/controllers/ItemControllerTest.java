@@ -1,9 +1,12 @@
 package com.unittesting.demo.unittesting.controllers;
 
+import com.unittesting.demo.unittesting.entities.Item;
+import com.unittesting.demo.unittesting.services.ItemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -11,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,6 +24,9 @@ public class ItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private ItemService itemService;
 
     @Test
     public void shouldReturnJson() throws Exception {
@@ -42,17 +49,15 @@ public class ItemControllerTest {
     @Test
     public void shouldReturnBusinessServiceJson() throws Exception {
         //make the request using mockmvc.
+        when(itemService.getDummyItem()).thenReturn(new Item(1, "Testing", 234.54));
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/dummy-item-from-service")
                 .accept(MediaType.APPLICATION_JSON);
         //Get the result back..
         MvcResult result = mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json("{{\n" +
-                        "id: 1,\n" +
-                        "name: \"Testing\",\n" +
-                        "price: 234.54\n" +
-                        "}}"))
+                .andExpect(content().json("{id: 1, name: Testing, price: 234.54}"))
                 .andReturn();
         //assert
     }
