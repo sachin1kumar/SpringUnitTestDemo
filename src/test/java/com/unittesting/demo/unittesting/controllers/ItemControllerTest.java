@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,6 +60,23 @@ public class ItemControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json("{id: 1, name: Testing, price: 234.54}"))
+                .andReturn();
+        //assert
+    }
+
+    @Test
+    public void shouldReturnListOfItems() throws Exception {
+        //make the request using mockmvc.
+        when(itemService.retrieveAllItems()).thenReturn(Arrays.asList(new Item(1, "Testing1", 234.54)
+        ,new Item(2, "Testing2", 234.54)));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/all-items-from-database")
+                .accept(MediaType.APPLICATION_JSON);
+        //Get the result back..
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{id: 1, name: Testing1, price: 234.54},{id: 2, name: Testing2, price: 234.54}]"))
                 .andReturn();
         //assert
     }
